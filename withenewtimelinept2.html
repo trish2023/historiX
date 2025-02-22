@@ -1,0 +1,228 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HistoriX - Journey Through Time</title>
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕰️</text></svg>">
+        
+        <!-- External Libraries -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-oqV9IqnDgdUawSOqt9abnCgzFECy9NsF1FxkMoGTt6y3ULsgMfsQJzOBwbnErpcl" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+        
+        <!-- Custom Stylesheet -->
+        <link rel="stylesheet" href="styles.css">
+        <style>
+            #map-container {
+                height: 500px;
+                width: 100%;
+                margin: 20px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="logo">
+                    <h1>HistoriX</h1>
+                    <p>Exploring the Tapestry of Human History</p>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#map-section">Interactive Map</a></li>
+                    <li><a href="#timeline-section">Historical Timeline</a></li>
+                    <li><a href="quiz2.html">Quiz</a></li>
+                    <li><a href="community2.html">Community</a></li>
+                    <li><a href="songpodlibrary.html">Audiobooks and Music</a></li>
+                    <li><a href="http://172.31.107.236:8501/">AI Insights</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="hero">
+                <div class="hero-content">
+                    <h2>Unravel the Stories of Our Past</h2>
+                    <p>Dive deep into historical narratives, explore interactive maps, and discover the connections that shape our world.</p>
+                    <a href="#map-section" class="cta-button">Start Exploring</a>
+                </div>
+            </section>
+
+            <section id="map-section">
+                <div class="section-header">
+                    <h2>Global Historical Atlas</h2>
+                    <p>Navigate through time and space with our interactive historical map</p>
+                </div>
+                <div id="map-controls">
+                    <select id="era-filter" class="map-control">
+                        <option value="all">All Eras</option>
+                        <option value="ancient">Ancient</option>
+                        <option value="medieval">Medieval</option>
+                        <option value="modern">Modern</option>
+                    </select>
+                </div>
+                <div id="map-container"></div>
+            </section>
+
+            <section id="timeline-section">
+                <div class="section-header">
+                    <h2>Historical Timeline of India</h2>
+                    <p>Journey through the rich history of the Indian subcontinent</p>
+                </div>
+                <div class="timeline-container">
+                    <div class="era-info" id="era-info">
+                        <h2 id="era-title">Select an Era</h2>
+                        <p id="era-description">Move the slider to view historical information.</p>
+                    </div>
+                    <input type="range" min="0" max="19" value="0" class="slider" id="timeline-slider">
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>HistoriX</h3>
+                    <p>Connecting Humanity Through Historical Exploration</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">LinkedIn</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2024 HistoriX. All Rights Reserved.
+            </div>
+        </footer>
+
+        <!-- External Libraries -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-wyDblKM0XlJ8Auw1o3BQKQ8dptI8ZcGfXGhGm9iwZaT8oD8VPAQJwOwVDGjy3p4P" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+        <!-- Custom Scripts -->
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const map = L.map('map-container').setView([20.5937, 78.9629], 5); // Centered on India
+
+                // Add a tile layer
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Add a marker cluster group
+                const markers = L.markerClusterGroup();
+
+                // Example markers (Replace with your data)
+                const marker1 = L.marker([28.6139, 77.2090]).bindPopup('Delhi');
+                const marker2 = L.marker([19.0760, 72.8777]).bindPopup('Mumbai');
+                markers.addLayer(marker1);
+                markers.addLayer(marker2);
+
+                map.addLayer(markers);
+            });
+        </script>
+
+        <!-- Timeline Script -->
+        <script>
+            const eraData = [
+                {
+                    title: "Paleolithic Period",
+                    description: "500,000 - 8000 BCE: Early humans used stone tools and lived as hunter-gatherers."
+                },
+                {
+                    title: "Mesolithic Period",
+                    description: "8000 - 4000 BCE: Transition period with microlithic tools and early domestication of animals."
+                },
+                {
+                    title: "Neolithic Period",
+                    description: "4000 - 2500 BCE: Introduction of agriculture, pottery, and permanent settlements."
+                },
+                {
+                    title: "Chalcolithic Period",
+                    description: "2500 - 1500 BCE: Use of copper tools alongside stone tools."
+                },
+                {
+                    title: "Indus Valley Civilization",
+                    description: "3300 - 1300 BCE: Advanced urban culture with planned cities like Harappa and Mohenjo-Daro."
+                },
+                {
+                    title: "Vedic Period",
+                    description: "1500 - 600 BCE: Composition of the Vedas and emergence of early Hindu society."
+                },
+                {
+                    title: "Period of Mahajanapadas",
+                    
+                    description: "600 - 325 BCE: Rise of large kingdoms and republics, along with the teachings of Buddha and Mahavira."
+                },
+                {
+                    title: "Mauryan Empire",
+                    description: "322 - 185 BCE: Unified Indian subcontinent under leaders like Chandragupta Maurya and Ashoka."
+                },
+                {
+                    title: "Post-Mauryan Period",
+                    description: "185 BCE - 320 CE: Influence of Indo-Greek, Shaka, and Kushan rulers."
+                },
+                {
+                    title: "Gupta Empire",
+                    description: "320 - 550 CE: Golden Age of India with advancements in science, arts, and literature."
+                },
+                {
+                    title: "Post-Gupta Period",
+                    description: "550 - 750 CE: Fragmentation of the empire and rise of regional kingdoms."
+                },
+                {
+                    title: "Early Medieval Period",
+                    description: "750 - 1200 CE: Dominance of regional powers like the Cholas, Palas, and Rashtrakutas."
+                },
+                {
+                    title: "Delhi Sultanate",
+                    description: "1206 - 1526 CE: Establishment of Islamic rule in India under five dynasties."
+                },
+                {
+                    title: "Vijayanagara Empire",
+                    description: "1336 - 1646 CE: Flourishing Hindu empire in Southern India."
+                },
+                {
+                    title: "Mughal Empire",
+                    description: "1526 - 1857: Period of architectural grandeur and cultural synthesis."
+                },
+                {
+                    title: "Portuguese Colonial Period",
+                    description: "1505 - 1961: Establishment of Portuguese trading outposts in Goa and elsewhere."
+                },
+                {
+                    title: "British East India Company Rule",
+                    description: "1757 - 1858: Colonial exploitation under a trading corporation."
+                },
+                {
+                    title: "British Raj",
+                    description: "1858 - 1947: Direct rule by the British Crown."
+                },
+                {
+                    title: "Post-Independence Era",
+                    description: "1947 - Present: India gains independence and develops as a sovereign nation."
+                },
+                {
+                    title: "Republic of India",
+                    description: "1950 - Present: India adopts its Constitution and emerges as a democratic republic."
+                }
+            ]
+
+            const slider = document.getElementById("timeline-slider");
+            const eraTitle = document.getElementById("era-title");
+            const eraDescription = document.getElementById("era-description");
+
+            slider.addEventListener("input", () => {
+                const eraIndex = slider.value;
+                eraTitle.textContent = eraData[eraIndex].title;
+                eraDescription.textContent = eraData[eraIndex].description;
+            });
+        </script>
+    </body>
+    </html>

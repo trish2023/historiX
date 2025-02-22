@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HistoryShare - Connect Through Time</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --card-color: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr minmax(auto, 600px) 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .sidebar {
+            background: var(--card-color);
+            border-radius: 12px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .trending-topics {
+            list-style: none;
+        }
+
+        .trending-topics li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .trending-topics li:hover {
+            color: var(--accent-color);
+        }
+
+        .post-form {
+            background: var(--card-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+            height: 100px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .post-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-input-label {
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-input-label:hover {
+            background: var(--primary-color);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .submit-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .post {
+            background: var(--card-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .post:hover {
+            transform: translateY(-2px);
+        }
+
+        .post-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .post-info {
+            flex-grow: 1;
+        }
+
+        .username {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .post-content {
+            padding: 0 15px 15px;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .post-actions {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 25px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .action-btn.liked {
+            color: var(--accent-color);
+        }
+
+        .comment-section {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr minmax(auto, 600px);
+            }
+            .sidebar:last-child {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="logo">HistoryShare</a>
+            <div class="user-area">
+                <span id="current-user">Guest User</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <h3>Trending Topics</h3>
+            <ul class="trending-topics">
+                <li>#AncientCivilizations</li>
+                <li>#WorldWar2</li>
+                <li>#IndustrialRevolution</li>
+                <li>#AncientEgypt</li>
+                <li>#MedievalTimes</li>
+            </ul>
+        </aside>
+
+        <main>
+            <div class="post-form">
+                <textarea id="post-caption" placeholder="Share your historical discovery..."></textarea>
+                <img id="image-preview" class="preview-image">
+                <div class="button-group">
+                    <label class="file-input-label">
+                        <i class="fas fa-camera"></i> Add Photo
+                        <input type="file" accept="image/*" class="file-input" id="image-input">
+                    </label>
+                    <button class="submit-btn" onclick="createPost()">
+                        <i class="fas fa-paper-plane"></i> Share
+                    </button>
+                </div>
+            </div>
+
+            <div id="posts-container"></div>
+        </main>
+
+        <aside class="sidebar">
+            <h3>Community Guidelines</h3>
+            <p>Share authentic historical content</p>
+            <p>Respect other members' views</p>
+            <p>Verify sources when possible</p>
+            <p>Keep discussions civil</p>
+        </aside>
+    </div>
+
+    <script>
+        // Initialize posts with some sample data
+        let posts = JSON.parse(localStorage.getItem('posts')) || [
+        {
+            id: 1,
+            user: 'HistoryBuff',
+            caption: 'The magnificent Taj Mahal - a testament to eternal love and Mughal architecture. Built by Emperor Shah Jahan in memory of his beloved wife Mumtaz Mahal.',
+            image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRhaiUyMG1haGFsfGVufDB8fDB8fHww',
+            likes: 142,
+            timestamp: '2 hours ago',
+            liked: false
+        },
+        {
+            id: 2,
+            user: 'AncientExplorer',
+            caption: 'Walking through the streets of ancient Athens through this restored digital model.',
+            image: '/api/placeholder/600/400',
+            likes: 38,
+            timestamp: '5 hours ago',
+            liked: false
+        }
+    ];
+
+        let selectedImage = null;
+
+        // Generate random username
+        const usernames = ['HistoryBuff', 'TimeExplorer', 'PastSeeker', 'ChronicleKeeper', 'HistoryNerd'];
+        const currentUser = usernames[Math.floor(Math.random() * usernames.length)] + Math.floor(Math.random() * 1000);
+        document.getElementById('current-user').textContent = currentUser;
+
+        // Handle image selection and preview
+        document.getElementById('image-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    selectedImage = event.target.result;
+                    const preview = document.getElementById('image-preview');
+                    preview.src = selectedImage;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Create new post
+        function createPost() {
+            const caption = document.getElementById('post-caption').value;
+            if (!caption && !selectedImage) return;
+
+            const post = {
+                id: Date.now(),
+                user: currentUser,
+                caption: caption,
+                image: selectedImage || '/api/placeholder/600/400',
+                likes: 0,
+                timestamp: 'Just now',
+                liked: false
+            };
+
+            posts.unshift(post);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            
+            document.getElementById('post-caption').value = '';
+            document.getElementById('image-preview').style.display = 'none';
+            selectedImage = null;
+            
+            displayPosts();
+        }
+
+        // Toggle like on a post
+        function toggleLike(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                localStorage.setItem('posts', JSON.stringify(posts));
+                displayPosts();
+            }
+        }
+
+        // Toggle comment section
+        function toggleComments(postId) {
+            const commentSection = document.querySelector(`#comments-${postId}`);
+            commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Display all posts
+        function displayPosts() {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = posts.map(post => `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar">${post.user.charAt(0)}</div>
+                        <div class="post-info">
+                            <div class="username">${post.user}</div>
+                            <div class="timestamp">${post.timestamp}</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>${post.caption}</p>
+                        <img src="${post.image}" class="post-image" alt="Post image">
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            <i class="fas fa-heart"></i> ${post.likes}
+                        </button>
+                        <button class="action-btn" onclick="toggleComments(${post.id})">
+                            <i class="fas fa-comment"></i> Comment
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                    </div>
+                    <div id="comments-${post.id}" class="comment-section">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initial display of posts
+        displayPosts();
+    </script>
+</body>
+</html>

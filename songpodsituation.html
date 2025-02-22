@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HistoriX - Journey Through Time</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕰️</text></svg>">
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Enhanced Timeline Styles -->
+    <style>
+        .timeline-container {
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .era-info {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 120px;
+            overflow-y: auto;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        .era-info h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .era-info p {
+            margin: 10px 0 0;
+            font-size: 16px;
+            color: #666;
+        }
+        .slider {
+            width: 100%;
+            margin: 20px 0;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 3px;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #666;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: #666;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">
+            <h1>HistoriX</h1>
+            <p>Exploring the Tapestry of Human History</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#map-section">Interactive Map</a></li>
+            <li><a href="#timeline-section">Historical Timeline</a></li>
+            <li><a href="#ai-section">AI Insights</a></li>
+            <li><a href="link-to-indias-music-page.html">Listen</a></li> <!-- New Listen link -->
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="hero">
+        <div class="hero-content">
+            <h2>Unravel the Stories of Our Past</h2>
+            <p>Dive deep into historical narratives, explore interactive maps, and discover the connections that shape our world.</p>
+            <a href="#map-section" class="cta-button">Start Exploring</a>
+        </div>
+    </section>
+
+    <section id="map-section">
+        <div class="section-header">
+            <h2>Global Historical Atlas</h2>
+            <p>Navigate through time and space with our interactive historical map</p>
+        </div>
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <section id="timeline-section">
+        <div class="section-header">
+            <h2>Historical Timeline of India</h2>
+            <p>Journey through the rich history of the Indian subcontinent</p>
+        </div>
+        <div class="timeline-container">
+            <div class="era-info" id="era-info">
+                <h2 id="era-title">Select an Era</h2>
+                <p id="era-description">Move the slider to view historical information.</p>
+            </div>
+            <input type="range" min="0" max="19" value="0" class="slider" id="timeline-slider">
+        </div>
+    </section>
+
+    <section id="ai-section">
+        <div class="section-header">
+            <h2>AI Historical Assistant</h2>
+            <p>Get instant insights, answer historical questions, and explore deeper connections</p>
+        </div>
+        <div class="ai-chat-container">
+            <div id="chat-messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="ai-chat-input" placeholder="Ask a historical question...">
+                <button id="send-chat">Send</button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h3>HistoriX</h3>
+            <p>Connecting Humanity Through Historical Exploration</p>
+        </div>
+        <div class="footer-links">
+           <!-- Add links as needed -->
+           <a href="#">About</a> 
+           <a href="#">Contact</a> 
+           <a href="#">Privacy Policy</a> 
+       </div>
+       <div class="social-links">
+           <!-- Add social media links as needed -->
+           <a href="#" class="social-icon">Twitter</a> 
+           <a href="#" class="social-icon">LinkedIn</a> 
+       </div>
+   </div>
+   <div class="copyright"> © 2024 HistoriX. All Rights Reserved. </div>
+</footer>
+
+<!-- External Libraries -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Custom Scripts -->
+<script src="script.js"></script>
+
+<!-- Timeline Script -->
+<script>
+// JavaScript for timeline slider functionality
+const eraData = [
+    { title: "Paleolithic Period", description: "500,000 - 8000 BCE..." },
+    { title: "Mesolithic Period", description: "8000 - 4000 BCE..." },
+    // Add more eras as needed
+];
+
+const slider = document.getElementById("timeline-slider");
+const eraTitle = document.getElementById("era-title");
+const eraDescription = document.getElementById("era-description");
+
+slider.addEventListener("input", () => {
+    const eraIndex = slider.value;
+    eraTitle.textContent = eraData[eraIndex].title;
+    eraDescription.textContent = eraData[eraIndex].description;
+});
+</script>
+
+</body>
+</html>

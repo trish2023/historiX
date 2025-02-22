@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-input-label {
+            background: #f0f2f5;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .submit-btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #166fe5;
+        }
+
+        .post {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-right: 10px;
+        }
+
+        .post-info {
+            flex-grow: 1;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .timestamp {
+            font-size: 0.8em;
+            color: #65676b;
+        }
+
+        .post-content {
+            padding: 0 12px 12px;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            margin: 10px 0;
+        }
+
+        .post-actions {
+            padding: 12px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #65676b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>History Community</h1>
+            <p>Share and discuss historical moments</p>
+        </div>
+
+        <div class="post-form">
+            <textarea id="post-caption" placeholder="Share your historical discovery..."></textarea>
+            <img id="image-preview" class="preview-image">
+            <div class="button-group">
+                <label class="file-input-label">
+                    📷 Add Photo
+                    <input type="file" accept="image/*" class="file-input" id="image-input">
+                </label>
+                <button class="submit-btn" onclick="createPost()">Post</button>
+            </div>
+        </div>
+
+        <div id="posts-container"></div>
+    </div>
+
+    <script>
+        // Initialize posts from localStorage or use empty array
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+        let selectedImage = null;
+
+        // Handle image selection and preview
+        document.getElementById('image-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    selectedImage = event.target.result;
+                    const preview = document.getElementById('image-preview');
+                    preview.src = selectedImage;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Create new post
+        function createPost() {
+            const caption = document.getElementById('post-caption').value;
+            if (!caption && !selectedImage) return;
+
+            const post = {
+                id: Date.now(),
+                user: 'Anonymous User',
+                caption: caption,
+                image: selectedImage,
+                likes: 0,
+                timestamp: new Date().toLocaleString(),
+                liked: false
+            };
+
+            posts.unshift(post);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            
+            // Reset form
+            document.getElementById('post-caption').value = '';
+            document.getElementById('image-preview').style.display = 'none';
+            selectedImage = null;
+            
+            displayPosts();
+        }
+
+        // Toggle like on a post
+        function toggleLike(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                localStorage.setItem('posts', JSON.stringify(posts));
+                displayPosts();
+            }
+        }
+
+        // Display all posts
+        function displayPosts() {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = posts.map(post => `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar"></div>
+                        <div class="post-info">
+                            <div class="username">${post.user}</div>
+                            <div class="timestamp">${post.timestamp}</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>${post.caption}</p>
+                        ${post.image ? `<img src="${post.image}" class="post-image" alt="Post image">` : ''}
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-btn" onclick="toggleLike(${post.id})">
+                            ${post.liked ? '❤️' : '🤍'} ${post.likes}
+                        </button>
+                        <button class="action-btn">💬 Comment</button>
+                        <button class="action-btn">↗️ Share</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initial display of posts
+        displayPosts();
+    </script>
+</body>
+</html>

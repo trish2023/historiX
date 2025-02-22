@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian History Quiz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 2rem auto;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 1rem;
+        }
+
+        .quiz-header h1 {
+            color: #1a365d;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .stat-item h3 {
+            color: #4a5568;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-top: 0.2rem;
+        }
+
+        .question {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: #2d3748;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .option {
+            padding: 0.8rem 1rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .option:hover {
+            background: #edf2f7;
+            transform: translateY(-1px);
+        }
+
+        .option.selected {
+            background: #48bb78;
+            color: white;
+            border-color: #48bb78;
+        }
+
+        .option.correct {
+            background: #48bb78;
+            color: white;
+            border-color: #48bb78;
+        }
+
+        .option.wrong {
+            background: #f56565;
+            color: white;
+            border-color: #f56565;
+        }
+
+        .badges {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            background: #faf089;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #744210;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .badge i {
+            font-size: 0.9rem;
+        }
+
+        .badge.locked {
+            background: #edf2f7;
+            color: #a0aec0;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #3182ce;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result h2 {
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .result p {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        #final-score {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .quiz-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .question {
+                font-size: 1rem;
+            }
+
+            .option {
+                font-size: 0.9rem;
+                padding: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-header">
+            <h1>Indian History Quiz</h1>
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>Points</h3>
+                    <p id="points">0</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Question</h3>
+                    <p><span id="current-question">1</span>/5</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz-content">
+            <div class="question" id="question"></div>
+            <div class="options" id="options"></div>
+            <button id="next-btn" style="display: none;">Next Question</button>
+        </div>
+
+        <div class="result" id="result">
+            <h2>Quiz Complete!</h2>
+            <p>Your score: <span id="final-score">0</span> points</p>
+            <div class="badges" id="badges"></div>
+            <button onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Which Mughal Emperor built the Taj Mahal?",
+                options: ["Akbar", "Shah Jahan", "Aurangzeb", "Jahangir"],
+                correct: 1
+            },
+            {
+                question: "The Battle of Plassey was fought in which year?",
+                options: ["1757", "1764", "1776", "1784"],
+                correct: 0
+            },
+            {
+                question: "Who was the first woman ruler of Delhi Sultanate?",
+                options: ["Nur Jahan", "Razia Sultan", "Mumtaz Mahal", "Jodha Bai"],
+                correct: 1
+            },
+            {
+                question: "The ancient city of Harappa belongs to which civilization?",
+                options: ["Mesopotamian", "Egyptian", "Indus Valley", "Greek"],
+                correct: 2
+            },
+            {
+                question: "Who started the Quit India Movement?",
+                options: ["Subhas Chandra Bose", "Jawaharlal Nehru", "Mahatma Gandhi", "Bhagat Singh"],
+                correct: 2
+            }
+        ];
+
+        const badges = [
+            { name: "History Novice", icon: "fas fa-star", requirement: 2, description: "Complete 2 questions correctly" },
+            { name: "History Scholar", icon: "fas fa-award", requirement: 4, description: "Complete 4 questions correctly" },
+            { name: "History Master", icon: "fas fa-crown", requirement: 5, description: "Perfect Score!" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            answered = false;
+            const questionData = quizData[currentQuestion];
+            document.getElementById('question').textContent = questionData.question;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            questionData.options.forEach((option, index) => {
+                const button = document.createElement('div');
+                button.className = 'option';
+                button.textContent = option;
+                button.onclick = () => selectOption(index);
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById('current-question').textContent = currentQuestion + 1;
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            answered = true;
+            const correct = quizData[currentQuestion].correct;
+            const options = document.querySelectorAll('.option');
+            
+            options[correct].classList.add('correct');
+            
+            if (index === correct) {
+                options[index].classList.add('selected');
+                score += 20;
+                document.getElementById('points').textContent = score;
+            } else {
+                options[index].classList.add('wrong');
+            }
+            
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        document.getElementById('next-btn').onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        };
+
+        function showResult() {
+            document.getElementById('quiz-content').style.display = 'none';
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            document.getElementById('final-score').textContent = score;
+            
+            const badgesContainer = document.getElementById('badges');
+            badgesContainer.innerHTML = '';
+            
+            const correctAnswers = score / 20;
+            badges.forEach(badge => {
+                const badgeElement = document.createElement('div');
+                badgeElement.className = `badge ${correctAnswers >= badge.requirement ? '' : 'locked'}`;
+                badgeElement.innerHTML = `<i class="${badge.icon}"></i> ${badge.name}`;
+                badgeElement.title = badge.description;
+                badgesContainer.appendChild(badgeElement);
+            });
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('points').textContent = score;
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            loadQuestion();
+        }
+
+        // Start the quiz
+        loadQuestion();
+    </script>
+</body>
+</html>
