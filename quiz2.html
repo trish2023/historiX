@@ -3,45 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian History Quiz</title>
+    <title>HistoriX - History Quiz</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕰️</text></svg>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-light: #ecf0f1;
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f0f2f5;
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--background-light);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            color: #333;
+            color: var(--text-color);
             line-height: 1.6;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
             max-width: 600px;
             width: 90%;
             margin: 2rem auto;
-            background: white;
+            background: var(--white);
             padding: 1.5rem;
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .quiz-header {
             text-align: center;
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid #f0f2f5;
+            border-bottom: 2px solid var(--background-light);
             padding-bottom: 1rem;
         }
 
         .quiz-header h1 {
-            color: #1a365d;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -52,13 +72,13 @@
             justify-content: space-around;
             margin: 1rem 0;
             padding: 0.8rem;
-            background: #f8fafc;
-            border-radius: 8px;
+            background: var(--background-light);
+            border-radius: 5px;
             font-size: 0.9rem;
         }
 
         .stat-item h3 {
-            color: #4a5568;
+            color: var(--primary-color);
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -68,14 +88,14 @@
         .stat-item p {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #2d3748;
+            color: var(--text-color);
             margin-top: 0.2rem;
         }
 
         .question {
             font-size: 1.1rem;
             margin-bottom: 1.2rem;
-            color: #2d3748;
+            color: var(--text-color);
             font-weight: 500;
             line-height: 1.4;
         }
@@ -87,35 +107,35 @@
 
         .option {
             padding: 0.8rem 1rem;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
+            background: var(--background-light);
+            border: 1px solid #ddd;
+            border-radius: 5px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 0.95rem;
         }
 
         .option:hover {
-            background: #edf2f7;
+            background: #ddd;
             transform: translateY(-1px);
         }
 
         .option.selected {
-            background: #48bb78;
+            background: #27ae60;
             color: white;
-            border-color: #48bb78;
+            border-color: #27ae60;
         }
 
         .option.correct {
-            background: #48bb78;
+            background: #27ae60;
             color: white;
-            border-color: #48bb78;
+            border-color: #27ae60;
         }
 
         .option.wrong {
-            background: #f56565;
+            background: var(--accent-color);
             color: white;
-            border-color: #f56565;
+            border-color: var(--accent-color);
         }
 
         .badges {
@@ -128,10 +148,10 @@
 
         .badge {
             padding: 0.4rem 0.8rem;
-            background: #faf089;
+            background: #f1c40f;
             border-radius: 15px;
             font-size: 0.8rem;
-            color: #744210;
+            color: var(--primary-color);
             font-weight: 500;
             display: flex;
             align-items: center;
@@ -143,8 +163,8 @@
         }
 
         .badge.locked {
-            background: #edf2f7;
-            color: #a0aec0;
+            background: #ddd;
+            color: #7f8c8d;
         }
 
         button {
@@ -152,10 +172,10 @@
             width: 100%;
             padding: 0.8rem;
             margin-top: 1rem;
-            background: #4299e1;
+            background: var(--secondary-color);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
@@ -163,33 +183,34 @@
         }
 
         button:hover {
-            background: #3182ce;
+            background: var(--primary-color);
         }
 
         .result {
             text-align: center;
             margin-top: 1rem;
             padding: 1.2rem;
-            background: #f7fafc;
-            border-radius: 8px;
+            background: var(--background-light);
+            border-radius: 5px;
             display: none;
         }
 
         .result h2 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 1.2rem;
-            color: #2d3748;
+            color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
 
         .result p {
             font-size: 0.95rem;
-            color: #4a5568;
+            color: var(--text-color);
             margin-bottom: 1rem;
         }
 
         #final-score {
             font-weight: 600;
-            color: #2d3748;
+            color: var(--primary-color);
         }
 
         @media (max-width: 480px) {
@@ -214,6 +235,22 @@
     </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>HistoriX</h1>
+                <p>Exploring the Tapestry of Human History</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="withenewtimelinept2.html">Home</a></li>
+                <li><a href="quiz2.html">Quiz</a></li>
+                <li><a href="community2.html">Community</a></li>
+                <li><a href="songpodlibrary.html">Listen</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
     <div class="container">
         <div class="quiz-header">
             <h1>Indian History Quiz</h1>
@@ -242,6 +279,7 @@
             <button onclick="restartQuiz()">Try Again</button>
         </div>
     </div>
+    </main>
 
     <script>
         const quizData = [
@@ -362,5 +400,26 @@
         // Start the quiz
         loadQuestion();
     </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>HistoriX</h3>
+                <p>Connecting Humanity Through Historical Exploration</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon">Twitter</a>
+                <a href="#" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 HistoriX. All Rights Reserved.
+        </div>
+    </footer>
 </body>
 </html>

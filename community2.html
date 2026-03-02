@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HistoryShare - Connect Through Time</title>
+    <title>HistoriX - Community</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕰️</text></svg>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #2c3e50;
-            --secondary-color: #34495e;
+            --secondary-color: #3498db;
             --accent-color: #e74c3c;
             --background-color: #ecf0f1;
             --card-color: #ffffff;
-            --text-primary: #2c3e50;
+            --text-primary: #333;
             --text-secondary: #7f8c8d;
+            --white: #ffffff;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            font-family: 'Open Sans', sans-serif;
             background-color: var(--background-color);
             color: var(--text-primary);
             line-height: 1.6;
         }
 
         .navbar {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 1rem 0;
+            padding: 1rem 5%;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -49,10 +52,36 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
             text-decoration: none;
+            color: white;
+        }
+
+        .logo h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
         }
 
         .main-container {
@@ -66,12 +95,18 @@
 
         .sidebar {
             background: var(--card-color);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 20px;
             height: fit-content;
             position: sticky;
             top: 100px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 15px;
         }
 
         .trending-topics {
@@ -92,20 +127,21 @@
         .post-form {
             background: var(--card-color);
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .post-form textarea {
             width: 100%;
             padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 5px;
             resize: none;
             height: 100px;
             margin-bottom: 15px;
             font-size: 1rem;
+            font-family: 'Open Sans', sans-serif;
             transition: border-color 0.3s ease;
         }
 
@@ -124,7 +160,7 @@
             background: var(--secondary-color);
             color: white;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s ease;
             display: flex;
@@ -145,29 +181,30 @@
             color: white;
             border: none;
             padding: 10px 25px;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background 0.3s ease;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
+            background: #c0392b;
         }
 
         .preview-image {
             max-width: 100%;
             max-height: 300px;
             margin-top: 15px;
-            border-radius: 8px;
+            border-radius: 5px;
             display: none;
         }
 
         .post {
             background: var(--card-color);
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.2s ease;
         }
 
@@ -217,7 +254,7 @@
             width: 100%;
             max-height: 500px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 5px;
             margin: 10px 0;
         }
 
@@ -258,8 +295,9 @@
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 5px;
             margin-bottom: 10px;
+            font-family: 'Open Sans', sans-serif;
         }
 
         @media (max-width: 1024px) {
@@ -284,10 +322,16 @@
 <body>
     <nav class="navbar">
         <div class="navbar-content">
-            <a href="#" class="logo">HistoryShare</a>
-            <div class="user-area">
-                <span id="current-user">Guest User</span>
-            </div>
+            <a href="withenewtimelinept2.html" class="logo">
+                <h1>HistoriX</h1>
+                <p>Exploring the Tapestry of Human History</p>
+            </a>
+            <ul class="nav-links">
+                <li><a href="withenewtimelinept2.html">Home</a></li>
+                <li><a href="quiz2.html">Quiz</a></li>
+                <li><a href="community2.html">Community</a></li>
+                <li><a href="songpodlibrary.html">Listen</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -454,5 +498,26 @@
         // Initial display of posts
         displayPosts();
     </script>
+
+    <footer style="background-color: #2c3e50; color: white; padding: 40px 5%; text-align: center; margin-top: 40px;">
+        <div class="footer-content" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; max-width: 1200px; margin-left: auto; margin-right: auto; flex-wrap: wrap; gap: 20px;">
+            <div class="footer-logo">
+                <h3 style="font-family: 'Montserrat', sans-serif;">HistoriX</h3>
+                <p>Connecting Humanity Through Historical Exploration</p>
+            </div>
+            <div class="footer-links">
+                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">About</a>
+                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Contact</a>
+                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
+            </div>
+            <div class="social-links">
+                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Twitter</a>
+                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">LinkedIn</a>
+            </div>
+        </div>
+        <div class="copyright" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            © 2026 HistoriX. All Rights Reserved.
+        </div>
+    </footer>
 </body>
 </html>

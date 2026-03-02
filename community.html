@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History Community</title>
+    <title>HistoriX - Community</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕰️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-light: #ecf0f1;
+            --text-color: #333;
+            --white: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            background-color: #f0f2f5;
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
         .container {
@@ -22,21 +36,26 @@
             padding: 20px;
         }
 
-        .header {
+        .page-header {
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
         }
 
         .post-form {
-            background: white;
+            background: var(--white);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .post-form textarea {
@@ -44,9 +63,10 @@
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
             resize: none;
             height: 100px;
+            font-family: 'Open Sans', sans-serif;
         }
 
         .button-group {
@@ -56,10 +76,15 @@
         }
 
         .file-input-label {
-            background: #f0f2f5;
+            background: var(--background-light);
             padding: 8px 16px;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .file-input-label:hover {
+            background: #ddd;
         }
 
         .file-input {
@@ -67,27 +92,29 @@
         }
 
         .submit-btn {
-            background: #1877f2;
-            color: white;
+            background: var(--accent-color);
+            color: var(--white);
             border: none;
-            padding: 8px 20px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
         }
 
         .submit-btn:hover {
-            background: #166fe5;
+            background: #c0392b;
         }
 
         .post {
-            background: white;
-            border-radius: 8px;
+            background: var(--white);
+            border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .post-header {
-            padding: 12px;
+            padding: 15px;
             display: flex;
             align-items: center;
         }
@@ -96,8 +123,13 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #ddd;
+            background: var(--secondary-color);
             margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
         }
 
         .post-info {
@@ -106,15 +138,16 @@
 
         .username {
             font-weight: bold;
+            color: var(--primary-color);
         }
 
         .timestamp {
-            font-size: 0.8em;
-            color: #65676b;
+            font-size: 0.85rem;
+            color: #7f8c8d;
         }
 
         .post-content {
-            padding: 0 12px 12px;
+            padding: 0 15px 15px;
         }
 
         .post-image {
@@ -122,11 +155,12 @@
             max-height: 500px;
             object-fit: cover;
             margin: 10px 0;
+            border-radius: 5px;
         }
 
         .post-actions {
-            padding: 12px;
-            border-top: 1px solid #ddd;
+            padding: 15px;
+            border-top: 1px solid #eee;
             display: flex;
             gap: 20px;
         }
@@ -134,11 +168,16 @@
         .action-btn {
             background: none;
             border: none;
-            color: #65676b;
+            color: #7f8c8d;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: var(--accent-color);
         }
 
         .preview-image {
@@ -146,13 +185,34 @@
             max-height: 200px;
             margin-top: 10px;
             display: none;
+            border-radius: 5px;
+        }
+
+        main {
+            padding: 20px 0;
         }
     </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>HistoriX</h1>
+                <p>Exploring the Tapestry of Human History</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="withenewtimelinept2.html">Home</a></li>
+                <li><a href="quiz2.html">Quiz</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="songpodlibrary.html">Listen</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
     <div class="container">
-        <div class="header">
-            <h1>History Community</h1>
+        <div class="page-header">
+            <h1>HistoriX Community</h1>
             <p>Share and discuss historical moments</p>
         </div>
 
@@ -258,5 +318,28 @@
         // Initial display of posts
         displayPosts();
     </script>
+    </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>HistoriX</h3>
+                <p>Connecting Humanity Through Historical Exploration</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon">Twitter</a>
+                <a href="#" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 HistoriX. All Rights Reserved.
+        </div>
+    </footer>
 </body>
 </html>
